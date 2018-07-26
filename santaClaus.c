@@ -20,7 +20,7 @@ void kruskal(int *set, Graph_t *g);
 int main() {
 	int *set = malloc(sizeof(int));
 	assert(set);
-   	Graph_t g = malloc(sizeof(Graph_t));
+   	Graph_t *g = malloc(sizeof(Graph_t));
 	assert(g);
 
 	printf("Vortexes: ");
@@ -30,10 +30,10 @@ int main() {
 	
 	g->x = malloc(sizeof(int) * g->v);
 	g->y = malloc(sizeof(int) * g->v);
-	d->distances = malloc(sizeof(int) * g->e);
+	g->distances = malloc(sizeof(int) * g->e);
 	
 	if((g->v == g->e) && (g->e == 0)) {
-		return;
+		exit(1);
 	} else {
 		kruskal(set, g);
 	}
@@ -45,5 +45,5 @@ int main() {
 /* 
  * Kruskal's algorithm
  */
-void kruskal(int *set, int v, int e) {
+void kruskal(int *set, Graph_t *g) {
 }

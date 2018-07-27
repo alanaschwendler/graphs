@@ -31,10 +31,10 @@ void insert_on_set(Set_t *s, int elem);
 int find_in_set(Set_t *s, int elem);
 
 int main() {
-	int *set = malloc(sizeof(int));
-	assert(set);
    	Graph_t *g = malloc(sizeof(Graph_t));
 	assert(g);
+	
+	int i;
 
 	do {
 		printf("Vortexes: ");
@@ -55,7 +55,6 @@ int main() {
 	free(g->x);
 	free(g->y);
 	free(g->distances);
-	free(set);
 	free(g);
 	return 0;
 }
@@ -68,7 +67,7 @@ void kruskal(int *set, Graph_t *g) {
 
 Set_t* make_set() {
 	Set_t *s;
-	s = malloc(sizeof(Set_T));
+	s = malloc(sizeof(Set_t));
 	assert(s);
 	s->size = 0;
 	s->arr = NULL;
@@ -115,4 +114,24 @@ Set_t* union_set(Set_t *s1, Set_t *s2) {
 		insert_on_set(s, s2->arr[i]);
 	
 	return s;
+}
+
+int compare_sets(Set_t *s1, Set_t *s2) {
+	int i, aux;
+	
+	if(s1->size > s2->size) {
+		for(i = 0; i < s2->size; ++i) {
+			aux = find_in_set(s1, s2->arr[i]);
+			if(aux == 0)
+				return 0;
+		} 
+		return 1;
+	} else {
+		for(i = 0; i < s1->size; ++i) {
+			aux = find_in_set(s2, s1->arr[i]);
+			if(aux == 0)
+				return 0;
+		}
+		return 1;
+	}
 }

@@ -10,6 +10,11 @@ typedef struct graph {
 	int *distances;
 } Graph_t;
 
+typedef struct set {
+	int size;
+	int *arr;
+} Set_t;
+
 /*
  * Kruskal's algorithm
  * @param *set set with solution
@@ -17,26 +22,39 @@ typedef struct graph {
  */
 void kruskal(int *set, Graph_t *g);
 
+Set_t* make_set();
+
+void destroy(Set_t *s);
+
+void insert_on_set(Set_t *s, int elem);
+
+int find_in_set(Set_t *s, int elem);
+
 int main() {
 	int *set = malloc(sizeof(int));
 	assert(set);
    	Graph_t *g = malloc(sizeof(Graph_t));
 	assert(g);
 
-	printf("Vortexes: ");
-	scanf("%d", &g->v); //vortexes
-	printf("Edges: ");
-	scanf("%d", &g->e); //edges
+	do {
+		printf("Vortexes: ");
+		scanf("%d", &g->v); //vortexes
+		printf("Edges: ");
+		scanf("%d", &g->e); //edges
 	
-	g->x = malloc(sizeof(int) * g->v);
-	g->y = malloc(sizeof(int) * g->v);
-	g->distances = malloc(sizeof(int) * g->e);
+		g->x = malloc(sizeof(int) * g->v);
+		g->y = malloc(sizeof(int) * g->v);
+		g->distances = malloc(sizeof(int) * g->e);
+		
+		for(i = 0; i < g->v; ++i) {
+			make_set();
+		}
+
+	} while(g->v != 0 && g->e != 0);
 	
-	if((g->v == g->e) && (g->e == 0)) {
-		exit(1);
-	} else {
-		kruskal(set, g);
-	}
+	free(g->x);
+	free(g->y);
+	free(g->distances);
 	free(set);
 	free(g);
 	return 0;
@@ -46,4 +64,55 @@ int main() {
  * Kruskal's algorithm
  */
 void kruskal(int *set, Graph_t *g) {
+}
+
+Set_t* make_set() {
+	Set_t *s;
+	s = malloc(sizeof(Set_T));
+	assert(s);
+	s->size = 0;
+	s->arr = NULL;
+	return s;
+}
+
+void destroy(Set_t *s) {
+	if(s->arr != NULL) 
+		free(s->arr);
+	
+	free(s);
+}
+
+void insert_on_set(Set_t *s, int elem) {
+
+	if(find_in_set(s, elem) == 0) {
+		s->size += 1;
+		s->arr = realloc(s->arr, sizeof(int) * s->size);
+		assert(s->arr);
+		s->arr[(s->size)-1] = elem;
+	} 
+}
+
+
+int find_in_set(Set_t *s, int elem) {
+	int i;
+	for(i = 0; i < s->size; ++i) {
+		if(s->arr[i] == elem) {
+			return 1;
+		}
+	}
+	return 0;
+}
+
+Set_t* union_set(Set_t *s1, Set_t *s2) {
+	int i;
+
+	Set_t *s = make_set();
+
+	for(i = 0; i < s1->size; ++i) 
+		insert_on_set(s, s1->arr[i]);
+
+	for(i = 0; i < s2->size; ++i)
+		insert_on_set(s, s2->arr[i]);
+	
+	return s;
 }

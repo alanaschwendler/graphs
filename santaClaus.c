@@ -24,9 +24,9 @@ int main() {
 	assert(g);
 
 	printf("Vortexes: ");
-	scanf("%d", g->v); //vortexes
+	scanf("%d", &g->v); //vortexes
 	printf("Edges: ");
-	scanf("%d", g->e); //edges
+	scanf("%d", &g->e); //edges
 	
 	g->x = malloc(sizeof(int) * g->v);
 	g->y = malloc(sizeof(int) * g->v);
